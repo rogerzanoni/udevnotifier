@@ -3,15 +3,28 @@
 
 #include "udevnotifier_global.h"
 
+#include <QtCore/QMetaType>
+
+
+class udev_device;
 
 namespace UdevNotifier {
 
 class DevicePrivate;
 
+
+/**
+ * @class Device
+ * @brief The UdevNotifier Device class
+ * @author Francesco Nwokeka <francesco.nwokeka@gmail.com>
+ *
+ * This class describes a device on the system detected by the UdevNotifier
+ */
 class UDEVNOTIFIERSHARED_EXPORT Device
 {
 public:
-    Device();
+    Device(udev_device *device = nullptr);
+    Device(const Device &other);
     ~Device();
 
     QString node() const;
@@ -23,5 +36,7 @@ private:
 };
 
 }
+
+Q_DECLARE_METATYPE(UdevNotifier::Device)
 
 #endif  // UDEVNOTIFIER__DEVICE_H

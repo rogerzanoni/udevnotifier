@@ -4,6 +4,9 @@
 #include <QtCore/QString>
 
 
+class udev_device;
+
+
 namespace UdevNotifier {
 
 class DevicePrivate
@@ -15,6 +18,8 @@ public:
     QString node;
     QString subsystem;
     QString type;
+
+    udev_device *device;
 };
 
 }

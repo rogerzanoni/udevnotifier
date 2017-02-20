@@ -1,3 +1,4 @@
+#include "device.h"
 #include "udevnotifier.h"
 #include "udevnotifier_p.h"
 
@@ -9,8 +10,6 @@
 #include <QtCore/QDebug>
 
 
-
-
 namespace UdevNotifier {
 
 
@@ -18,6 +17,10 @@ UdevNotifier::UdevNotifier(const QStringList &groups, QObject *parent)
     : QThread(parent)
     , d(new UdevNotifierPrivate)
 {
+    // register types needed for signals and slots
+    qRegisterMetaType<UdevNotifier::Action>("UdevNotifier::Action");
+    qRegisterMetaType<Device>("Device");
+
     d->groups = groups;
     d->udev = udev_new();
 
@@ -40,6 +43,21 @@ UdevNotifier::UdevNotifier(const QStringList &groups, QObject *parent)
 UdevNotifier::~UdevNotifier()
 {
     delete d;
+}
+
+UdevNotifier::Action UdevNotifier::actionFromString(const QString &actionStr)
+{
+    qDebug("[UdevNotifier::actionFromString]");
+    qDebug() << actionStr;
+
+
+    if (actionStr == "add") {
+        return ADD;
+    } else if (actionStr == "remove") {
+        return REMOVE;
+    } else {
+        return NONE;
+    }
 }
 
 void UdevNotifier::run()
@@ -68,7 +86,9 @@ void UdevNotifier::run()
             }
 
             // XXX
-            qDebug() << "hotplug[" << udev_device_get_action(dev) << "] " << udev_device_get_devnode(dev) << "," << udev_device_get_subsystem(dev) << "," << udev_device_get_devtype(dev);;
+            qDebug() << "hotplug[" << udev_device_get_action(dev) << "] " << udev_device_get_devnode(dev) << "," << udev_device_get_subsystem(dev) << "," << udev_device_get_devtype(dev);
+            // emit the found device
+            Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Device(dev));
 
             // destroy the relevant device
             udev_device_unref(dev);

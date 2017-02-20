@@ -8,6 +8,7 @@ SUBDIRS += \
 
 
 OTHER_FILES += \
+    include/Device \
     include/UdevNotifier
 
 example.subdir = $$PWD/example
