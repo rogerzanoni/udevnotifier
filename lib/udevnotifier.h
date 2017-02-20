@@ -3,7 +3,6 @@
 
 #include "udevnotifier_global.h"
 
-
 #include <QtCore/QThread>
 
 

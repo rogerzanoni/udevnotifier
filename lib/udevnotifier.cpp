@@ -1,21 +1,14 @@
 #include "udevnotifier.h"
 #include "udevnotifier_p.h"
 
+
 #include <libudev.h>
 #include <poll.h>
+
 
 #include <QtCore/QDebug>
 
 
-
-/**
- * Extra
- */
-
-#include <sys/epoll.h>
-
-
-/** ----- */
 
 
 namespace UdevNotifier {
