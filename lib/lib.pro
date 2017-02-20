@@ -17,10 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    device.cpp \
     udevnotifier.cpp
 
 HEADERS += \
-    udevnotifier.h\
+    device.h \
+    device_p.h \
+    udevnotifier.h \
     udevnotifier_global.h \
     udevnotifier_p.h
 
