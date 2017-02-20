@@ -3,14 +3,32 @@
 
 #include <QtCore/QStringList>
 
+
+struct udev;
+struct udev_monitor;
+
+
 namespace UdevNotifier {
 
 class UdevNotifierPrivate
 {
 public:
-    UdevNotifierPrivate() {}
+    UdevNotifierPrivate()
+        : fdUdev(-1)
+        , exit(true)
+        , udev(nullptr)
+        , udevMonitor(nullptr)
+    {}
 
     QStringList groups;
+
+    int fdUdev;
+
+    /** flag that indicates if the thread should be running or not */
+    bool exit;
+
+    struct udev *udev;
+    struct udev_monitor *udevMonitor;
 };
 
 }

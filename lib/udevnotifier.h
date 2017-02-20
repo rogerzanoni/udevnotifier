@@ -3,7 +3,8 @@
 
 #include "udevnotifier_global.h"
 
-#include <QtCore/QObject>
+
+#include <QtCore/QThread>
 
 
 namespace UdevNotifier {
@@ -17,13 +18,19 @@ class UdevNotifierPrivate;
  *
  * This class watches the given groups from udev and notifies their actions
  */
-class UDEVNOTIFIERSHARED_EXPORT UdevNotifier : public QObject // QThread?
+class UDEVNOTIFIERSHARED_EXPORT UdevNotifier : public QThread
 {
     Q_OBJECT
 
 public:
     UdevNotifier(const QStringList &groups, QObject *parent = nullptr);
     ~UdevNotifier();
+
+    /** stops the polling for devices */
+    void stop();
+
+protected:
+    void run() override final;
 
 private:
     UdevNotifierPrivate * const d;
