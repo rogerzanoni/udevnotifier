@@ -86,7 +86,7 @@ void UdevNotifier::run()
             }
 
             // XXX
-            qDebug() << "hotplug[" << udev_device_get_action(dev) << "] " << udev_device_get_devnode(dev) << "," << udev_device_get_subsystem(dev) << "," << udev_device_get_devtype(dev);
+//             qDebug() << "hotplug[" << udev_device_get_action(dev) << "] " << udev_device_get_devnode(dev) << "," << udev_device_get_subsystem(dev) << "," << udev_device_get_devtype(dev);
             // emit the found device
             Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Device(dev));
 
@@ -94,14 +94,14 @@ void UdevNotifier::run()
             udev_device_unref(dev);
 
             // XXX
-            qDebug("done");
+            qDebug("-> done");
 
             // clear the revents
             items[0].revents = 0;
         }
     }
 
-    qDebug("OUT");
+    qDebug("-> OUT");
 }
 
 void UdevNotifier::stop()
