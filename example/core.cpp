@@ -23,4 +23,6 @@ void Core::onUdevEvent(UdevNotifier::UdevNotifier::Action action, UdevNotifier::
 {
     qDebug("[Core::onUdevEvent]");
     Q_UNUSED(device);
+
+
 }

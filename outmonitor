@@ -1,0 +1,26 @@
+[UdevNotifier::run]
+hotplug[  1  ]
+"/dev/dri/card1 - drm - drm_minor"
+DEVPATH:  /devices/pci0000:00/0000:00:02.0/drm/card1
+SYSPATH:  /sys/devices/pci0000:00/0000:00:02.0/drm/card1
+SYSNAME:  card1
+IS INIT:  1
+PRODUCT:  
+[UdevNotifier::actionFromString]
+"change"
+-> done
+[Core::onUdevEvent]
+
+
+
+hotplug[  1  ]
+"/dev/dri/card1 - drm - drm_minor"
+DEVPATH:  /devices/pci0000:00/0000:00:02.0/drm/card1
+SYSPATH:  /sys/devices/pci0000:00/0000:00:02.0/drm/card1
+SYSNAME:  card1
+IS INIT:  1
+PRODUCT:  
+[UdevNotifier::actionFromString]
+"change"
+-> done
+[Core::onUdevEvent]

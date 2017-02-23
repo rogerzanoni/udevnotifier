@@ -30,9 +30,10 @@ public:
     QString node() const;
     QString subsystem() const;
     QString type() const;
+    DevicePrivate * const d;
 
 private:
-    DevicePrivate * const d;
+
 };
 
 }

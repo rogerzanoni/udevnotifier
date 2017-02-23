@@ -18,14 +18,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     device.cpp \
-    udevnotifier.cpp
+    udevnotifier.cpp \
+    monitor.cpp
 
 HEADERS += \
     device.h \
     device_p.h \
     udevnotifier.h \
     udevnotifier_global.h \
-    udevnotifier_p.h
+    udevnotifier_p.h \
+    monitor.h
 
 
 LIBS += -ludev

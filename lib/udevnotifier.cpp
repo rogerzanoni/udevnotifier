@@ -5,7 +5,7 @@
 
 #include <libudev.h>
 #include <poll.h>
-
+#include<monitor.h>
 
 #include <QtCore/QDebug>
 
@@ -65,8 +65,8 @@ void UdevNotifier::run()
     qDebug("[UdevNotifier::run]");
     d->exit = false;
 
-    while (!d->exit) {
-        // create the poll item
+   while (!d->exit) {
+       // create the poll item
         pollfd items[1];
         items[0].fd = udev_monitor_get_fd(d->udevMonitor);
         items[0].events = POLLIN;
@@ -88,20 +88,33 @@ void UdevNotifier::run()
             // XXX
 //             qDebug() << "hotplug[" << udev_device_get_action(dev) << "] " << udev_device_get_devnode(dev) << "," << udev_device_get_subsystem(dev) << "," << udev_device_get_devtype(dev);
             // emit the found device
-            Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Device(dev));
+            QString det= udev_device_get_devtype(dev);
+         //   qDebug()<<det;
+            QString det1= "usb_device";
+            QString det2= "drm_minor";
+            QString det3= "usb_device";
+           // qDebug()<<det1;
+
+           if(udev_device_get_devtype(dev)==det2){
+           Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Monitor(dev));}
+           if(udev_device_get_devtype(dev)==det1){
+           Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Device(dev));}
 
             // destroy the relevant device
             udev_device_unref(dev);
 
             // XXX
-            qDebug("-> done");
+         //   qDebug("-> done");
 
             // clear the revents
             items[0].revents = 0;
         }
+
+
+
     }
 
-    qDebug("-> OUT");
+  //  qDebug("-> OUT");
 }
 
 void UdevNotifier::stop()

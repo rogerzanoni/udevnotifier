@@ -7,6 +7,7 @@
 class udev_device;
 
 
+
 namespace UdevNotifier {
 
 class DevicePrivate
