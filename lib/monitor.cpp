@@ -26,11 +26,12 @@ Monitor::Monitor(udev_device* device):Device(device)
 
 {
 
-       if(d->type=="drm_minor"){
 
-          qDebug() << "Questò è un monitor" ;
-     }else
- qDebug() << "Questò NON é monitor" ;
+
+        qDebug() << "Questò è un monitor" ;
+        DevicePrivate* prova = D();
+
+
 
 }
 
