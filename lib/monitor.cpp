@@ -24,8 +24,8 @@ namespace UdevNotifier {
 Monitor::Monitor(udev_device* device):Device(device)
 {
           qDebug() << "Questò è un monitor" ;
-          DevicePrivate* prova = D();
-          qDebug() << prova->subsystem;
+
+
 }
 
 }
