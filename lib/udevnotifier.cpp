@@ -1,17 +1,11 @@
 #include "device.h"
+#include <libudev.h>
+#include<monitor.h>
+#include <poll.h>
+#include <QtCore/QDebug>
 #include "udevnotifier.h"
 #include "udevnotifier_p.h"
-
-
-#include <libudev.h>
-#include <poll.h>
-#include<monitor.h>
-
-#include <QtCore/QDebug>
-
-
 namespace UdevNotifier {
-
 
 UdevNotifier::UdevNotifier(const QStringList &groups, QObject *parent)
     : QThread(parent)
@@ -89,15 +83,11 @@ void UdevNotifier::run()
 //             qDebug() << "hotplug[" << udev_device_get_action(dev) << "] " << udev_device_get_devnode(dev) << "," << udev_device_get_subsystem(dev) << "," << udev_device_get_devtype(dev);
             // emit the found device
             QString det= udev_device_get_devtype(dev);
-         //   qDebug()<<det;
             QString det1= "usb_device";
             QString det2= "drm_minor";
-            QString det3= "usb_device";
-           // qDebug()<<det1;
-
-           if(udev_device_get_devtype(dev)==det2){
+           if(det==det2){
            Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Monitor(dev));}
-           if(udev_device_get_devtype(dev)==det1){
+           if(det==det1){
            Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Device(dev));}
 
             // destroy the relevant device
@@ -109,9 +99,6 @@ void UdevNotifier::run()
             // clear the revents
             items[0].revents = 0;
         }
-
-
-
     }
 
   //  qDebug("-> OUT");

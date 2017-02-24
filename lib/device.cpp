@@ -66,4 +66,7 @@ QString Device::type() const
     return d->type;
 }
 
+
+
 }
+

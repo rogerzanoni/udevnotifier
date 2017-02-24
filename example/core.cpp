@@ -1,17 +1,12 @@
 #include "core.h"
-
 #include "../include/Device"
 #include "../include/UdevNotifier"
-
 #include <QtCore/QDebug>
-
-
 Core::Core(QObject *parent)
     : QObject(parent)
     , m_udevNotifier(new UdevNotifier::UdevNotifier(QStringList(), this))
 {
     connect(m_udevNotifier, &UdevNotifier::UdevNotifier::udevEvent, this, &Core::onUdevEvent);
-
     m_udevNotifier->start();
 }
 
@@ -23,6 +18,4 @@ void Core::onUdevEvent(UdevNotifier::UdevNotifier::Action action, UdevNotifier::
 {
     qDebug("[Core::onUdevEvent]");
     Q_UNUSED(device);
-
-
 }
