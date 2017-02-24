@@ -82,11 +82,11 @@ void UdevNotifier::run()
             // XXX
 //             qDebug() << "hotplug[" << udev_device_get_action(dev) << "] " << udev_device_get_devnode(dev) << "," << udev_device_get_subsystem(dev) << "," << udev_device_get_devtype(dev);
             // emit the found device
-           if(udev_device_get_devtype(dev)==QStringLiteral("drm_minor")){
+           if (udev_device_get_devtype(dev)==QStringLiteral("drm_minor")) {
            Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Monitor(dev));
            }
 
-           if(udev_device_get_devtype(dev)==QStringLiteral("usb_device")){
+           if (udev_device_get_devtype(dev)==QStringLiteral("usb_device")) {
            Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Device(dev));
            }
 
