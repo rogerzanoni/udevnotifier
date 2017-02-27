@@ -3,16 +3,11 @@
 
 #include <libudev.h>
 #include <QtCore/QString>
-
 #include "device.h"
-#include <libudev.h>
 
 class udev_device;
 
-
 namespace UdevNotifier{
-
-
 
 class UDEVNOTIFIERSHARED_EXPORT Webcam: public Device
 {

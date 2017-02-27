@@ -93,10 +93,6 @@ void UdevNotifier::run()
             if (udev_device_get_subsystem(dev) == QStringLiteral("video4linux")) {
                 Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Webcam(dev));
             }
-
-
-
-
             // XXX
          //   qDebug("-> done");
 

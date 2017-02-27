@@ -26,16 +26,11 @@ SOURCES += \
 HEADERS += \
     device.h \
     device_p.h \
+    monitor.h \
     udevnotifier.h \
     udevnotifier_global.h \
     udevnotifier_p.h \
-    webcam.h\
-    monitor.h \
-    udevnotifier_p.h \
-
-
-
-
+    webcam.h
 
 LIBS += -ludev
 

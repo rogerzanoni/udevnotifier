@@ -69,7 +69,7 @@ QString Device::type() const
     return d->type;
 }
 
-Device::TIPO Device::Typedevice(){
+Device::TYPE Device::Typedevice(){
 
  if(d->type=="drm_minor"){
     return MONITOR;
