@@ -5,6 +5,7 @@
 
 #include <QtCore/QDebug>
 
+
 namespace UdevNotifier {
 
 
@@ -66,4 +67,7 @@ QString Device::type() const
     return d->type;
 }
 
+
+
 }
+

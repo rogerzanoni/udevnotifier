@@ -1,24 +1,14 @@
 #include "monitor.h"
 #include "device.h"
-#include "device_p.h"
-#include <QtCore/QDebug>
+
 
 namespace UdevNotifier {
 
-
-/*Monitor::Monitor(udev_device* device)
-    : w(new DevicePrivate())
-
+Monitor::Monitor(udev_device *device)
+    :Device(device)
 {
-    w->device = device;
-
-     if(w->type=="drm_minor"){
-
-          qDebug() << "Questò è un monitor" ;
-     }else
- qDebug() << "Questò NON é monitor" ;
-
 }
+<<<<<<< HEAD
 */
 
 Monitor::Monitor(udev_device* device):Device(device)
@@ -26,6 +16,11 @@ Monitor::Monitor(udev_device* device):Device(device)
           qDebug() << "Questò è un monitor" ;
 
 
+=======
+
+Monitor::~Monitor()
+{
+>>>>>>> f16a570cd29cfaab5c6a57cff107e550d9dc65ee
 }
 
 }

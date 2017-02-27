@@ -3,18 +3,28 @@
 
 #include <QtCore/QString>
 
-
-class udev_device;
+#include <libudev.h>
 
 
 
 namespace UdevNotifier {
 
+/**
+ * @class DevicePrivate
+ * @brief The Device's private class
+ * @author Francesco Nwokeka <francesco.nwokeka@gmail.com>
+ */
 class DevicePrivate
 {
 public:
-    DevicePrivate() {}
-    ~DevicePrivate() {}
+    DevicePrivate()
+        : device(nullptr)
+    {}
+    ~DevicePrivate()
+    {
+        // destroy the relevant device
+        udev_device_unref(device);
+    }
 
     QString node;
     QString subsystem;
