@@ -12,6 +12,7 @@ Monitor::Monitor(udev_device *device)
 
 Monitor::~Monitor()
 {
+
 }
 
 }
