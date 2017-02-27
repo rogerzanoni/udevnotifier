@@ -5,6 +5,7 @@
 
 #include <QtCore/QDebug>
 
+
 namespace UdevNotifier {
 
 

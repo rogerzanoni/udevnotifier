@@ -4,12 +4,17 @@
 #include <QtCore/QStringList>
 
 
-struct udev;
-struct udev_monitor;
+#include <libudev.h>
 
 
 namespace UdevNotifier {
 
+
+/**
+ * @class UdevNotifierPrivate
+ * @brief The UdevNotifier's private class
+ * @author Francesco Nwokeka <francesco.nwokeka@gmail.com>
+ */
 class UdevNotifierPrivate
 {
 public:
@@ -19,6 +24,13 @@ public:
         , udev(nullptr)
         , udevMonitor(nullptr)
     {}
+
+    ~UdevNotifierPrivate()
+    {
+        udev_monitor_unref(udevMonitor);
+        udev_unref(udev);
+    }
+
 
     QStringList groups;
 
