@@ -1,18 +1,21 @@
-#ifndef MONITOR_H
-#define MONITOR_H
+#ifndef UDEVNOTIFIER_MONITOR_H
+#define UDEVNOTIFIER_MONITOR_H
+
 #include "device.h"
+#include "udevnotifier_global.h"
+
 #include <libudev.h>
 
-class udev_device;
 
 namespace UdevNotifier {
 
-class Monitor: public Device
+class UDEVNOTIFIERSHARED_EXPORT Monitor: public Device
 {
 public:
     Monitor(udev_device *device = nullptr);
-
-private:
+    ~Monitor();
 };
+
 }
-#endif // MONITOR_H
+
+#endif // UDEVNOTIFIER_MONITOR_H
