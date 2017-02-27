@@ -19,7 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     device.cpp \
     monitor.cpp \
-    udevnotifier.cpp
+    udevnotifier.cpp \
     webcam.cpp
 
 
@@ -29,7 +29,7 @@ HEADERS += \
     monitor.h  \
     udevnotifier.h \
     udevnotifier_global.h \
-    udevnotifier_p.h
+    udevnotifier_p.h \
     webcam.h
 
 
