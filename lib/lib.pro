@@ -20,6 +20,7 @@ SOURCES += \
     device.cpp \
     monitor.cpp \
     udevnotifier.cpp
+    webcam.cpp
 
 
 HEADERS += \
@@ -29,6 +30,7 @@ HEADERS += \
     udevnotifier.h \
     udevnotifier_global.h \
     udevnotifier_p.h
+    webcam.h
 
 
 
