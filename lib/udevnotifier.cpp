@@ -5,7 +5,7 @@
 #include <libudev.h>
 #include <monitor.h>
 #include <poll.h>
-
+#include"webcam.h"
 #include <QtCore/QDebug>
 
 
@@ -90,9 +90,11 @@ void UdevNotifier::run()
                 Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Monitor(dev));
             }
 
-            if (udev_device_get_devtype(dev) == QStringLiteral("usb_device")) {
-                Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Device(dev));
+            if (udev_device_get_subsystem(dev) == QStringLiteral("video4linux")) {
+                Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Webcam(dev));
             }
+//Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Device(dev));
+
 
             // XXX
          //   qDebug("-> done");
