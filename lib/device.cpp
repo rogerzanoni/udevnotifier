@@ -71,14 +71,15 @@ QString Device::type() const
 
 Device::TYPE Device::Typedevice(){
 
- if(d->type=="drm_minor"){
+ if(d->type=="drm_minor") {
     return MONITOR;
     }
 
-    if(d->subsystem=="video4linux"){
-        return WEBCAM;
+ if(d->subsystem=="video4linux") {
+    return WEBCAM;
     }
- }
+ return DEVICEUSB;
+}
 
 }
 

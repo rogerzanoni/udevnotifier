@@ -25,7 +25,8 @@ public:
     enum TYPE{
 
         MONITOR,
-        WEBCAM
+        WEBCAM,
+        DEVICEUSB
     };
 
     Device(udev_device *device = nullptr);
