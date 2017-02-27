@@ -31,8 +31,11 @@ public:
     QString subsystem() const;
     QString type() const;
 
+
+
 private:
     DevicePrivate * const d;
+
 };
 
 }
