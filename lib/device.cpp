@@ -22,6 +22,7 @@ Device::Device(udev_device* device)
 
 
       //  qDebug() << QString("%1 - %2 - %3").arg(d->node).arg(d->subsystem).arg(d->type);
+        qDebug()<< Typedevice();
         qDebug() << "node " << d->node;
         qDebug() << "subsystem:" << d->subsystem;
         qDebug() << "type: " << d->type;
@@ -34,6 +35,7 @@ Device::Device(udev_device* device)
 
 
         qDebug()<<"**************************************************************";
+
     }
 }
 
@@ -67,7 +69,26 @@ QString Device::type() const
     return d->type;
 }
 
+Device::TIPO Device::Typedevice(){
 
+ if(d->type=="drm_minor"){
+    return MONITOR;
+    }
+
+    if(d->subsystem=="video4linux"){
+        return WEBCAM;
+    }
+ }
 
 }
+
+
+
+
+
+
+
+
+
+
 

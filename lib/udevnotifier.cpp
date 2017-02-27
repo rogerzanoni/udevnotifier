@@ -73,7 +73,7 @@ void UdevNotifier::run()
         // while there are hotplug events to process
         while (poll(items, 1, 50) > 0) {
             // XXX
-            qDebug() << "hotplug[ " << items[0].revents << " ]";
+          //  qDebug() << "hotplug[ " << items[0].revents << " ]";
 
             // receive the relevant device
             udev_device* dev = udev_monitor_receive_device(d->udevMonitor);
@@ -93,7 +93,8 @@ void UdevNotifier::run()
             if (udev_device_get_subsystem(dev) == QStringLiteral("video4linux")) {
                 Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Webcam(dev));
             }
-//Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Device(dev));
+
+
 
 
             // XXX

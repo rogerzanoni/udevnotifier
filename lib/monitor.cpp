@@ -8,11 +8,15 @@ Monitor::Monitor(udev_device *device)
     :Device(device)
 {
     qDebug() << "qyesto è un monitr";
+
+
 }
 
 Monitor::~Monitor()
 {
 
 }
+
+
 
 }

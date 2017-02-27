@@ -4,6 +4,7 @@
 #include "udevnotifier_global.h"
 
 #include <QtCore/QMetaType>
+#include <QtCore/QThread>
 
 
 class udev_device;
@@ -23,6 +24,15 @@ class DevicePrivate;
 class UDEVNOTIFIERSHARED_EXPORT Device
 {
 public:
+
+    enum TIPO{
+
+        MONITOR,
+        WEBCAM
+    };
+
+
+
     Device(udev_device *device = nullptr);
     Device(const Device &other);
     ~Device();
@@ -30,9 +40,11 @@ public:
     QString node() const;
     QString subsystem() const;
     QString type() const;
+    TIPO   Typedevice();
 
 private:
     DevicePrivate * const d;
+
 
 };
 
