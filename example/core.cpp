@@ -1,8 +1,8 @@
-#include "../include/Device"
-
 #include "core.h"
 
 #include <QtCore/QDebug>
+
+#include <UdevNotifier/Device>
 
 
 Core::Core(QObject *parent)
