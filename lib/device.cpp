@@ -10,7 +10,7 @@ Device::Device(udev_device* device, TYPE typeD)
     : d(new DevicePrivate)
 {
 
-    this->typeD=typeD;
+    d->d_typD=typeD;
     d->device = device;
 
     // populate basic info
@@ -22,7 +22,7 @@ Device::Device(udev_device* device, TYPE typeD)
 
       //  qDebug() << QString("%1 - %2 - %3").arg(d->node).arg(d->subsystem).arg(d->type);
      //   qDebug()<< typeDevice();
-        qDebug() << typeDevice();
+        qDebug() << "dal d pointer"<<d->d_typD;
         qDebug() << "node " << d->node;
         qDebug() << "subsystem:" << d->subsystem;
         qDebug() << "type: " << d->type;
@@ -68,10 +68,13 @@ QString Device::type() const
 {
     return d->type;
 }
-Device::TYPE Device::typeDevice() {
-return this->typeD;
+
+Device::TYPE Device::d_typD() const {
+return d->d_typD;
 
 }
+
+
 
 }
 

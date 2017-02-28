@@ -32,15 +32,14 @@ public:
     Device(udev_device *device = nullptr, TYPE n  = USBDEVICE);
     Device(const Device &other);
     ~Device();
-    Device::TYPE typeDevice();
 
     QString node() const;
     QString subsystem() const;
     QString type() const;
+    TYPE d_typD() const;
 
 private:
     DevicePrivate * const d;
-    TYPE typeD;
 };
 
 }
