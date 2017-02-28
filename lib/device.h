@@ -22,21 +22,21 @@ class UDEVNOTIFIERSHARED_EXPORT Device
 {
 public:
 
-    enum TYPEDEVICE {
+    enum DeviceType {
         MONITOR,
         WEBCAM,
         USBDEVICE
     };
 
-    Device(udev_device *device = nullptr, TYPEDEVICE deviceType  = USBDEVICE);
+    Device(udev_device *device = nullptr, DeviceType deviceType  = USBDEVICE);
     Device(const Device &other);
     ~Device();
 
     QString node() const;
     QString subsystem() const;
     QString type() const;
-    TYPEDEVICE deviceType() const;
-    TYPEDEVICE typeDevice;
+    DeviceType deviceType() const;
+    DeviceType typeDevice;
 
 
 private:

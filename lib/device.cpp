@@ -6,11 +6,11 @@
 namespace UdevNotifier {
 
 
-Device::Device(udev_device* device, TYPEDEVICE typeD)
+Device::Device(udev_device* device, DeviceType deviceT )
     : d(new DevicePrivate)
 {
     d->device = device;
-    typeDevice=typeD;
+    typeDevice = deviceT;
 
     // populate basic info
     if (d->device) {
@@ -66,7 +66,7 @@ QString Device::type() const
     return d->type;
 }
 
-Device::TYPEDEVICE Device::deviceType() const
+Device::DeviceType Device::deviceType() const
 {
     return typeDevice;
 }
