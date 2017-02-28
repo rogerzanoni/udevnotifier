@@ -4,9 +4,9 @@
 #include <QtCore/QDebug>
 namespace UdevNotifier {
 
-Webcam::Webcam(udev_device *device,TYPE typeD):Device(device,typeD)
+Webcam::Webcam(udev_device *device)
+    :Device(device,WEBCAM)
 {
-    qDebug() <<"Questa p una webcam";
 }
 Webcam::~Webcam()
 {

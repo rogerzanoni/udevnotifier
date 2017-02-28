@@ -9,9 +9,8 @@ namespace UdevNotifier {
 Device::Device(udev_device* device, TYPE typeD)
     : d(new DevicePrivate)
 {
-
-    d->d_typD=typeD;
     d->device = device;
+    this->typeDevice=typeD;
 
     // populate basic info
     if (d->device) {
@@ -21,8 +20,7 @@ Device::Device(udev_device* device, TYPE typeD)
 
 
       //  qDebug() << QString("%1 - %2 - %3").arg(d->node).arg(d->subsystem).arg(d->type);
-     //   qDebug()<< typeDevice();
-        qDebug() << "dal d pointer"<<d->d_typD;
+        qDebug() << "TIPO :" << tDevice();
         qDebug() << "node " << d->node;
         qDebug() << "subsystem:" << d->subsystem;
         qDebug() << "type: " << d->type;
@@ -48,7 +46,6 @@ Device::Device(const UdevNotifier::Device &other)
     d->type = other.type();
 }
 
-
 Device::~Device()
 {
     delete d;
@@ -69,12 +66,10 @@ QString Device::type() const
     return d->type;
 }
 
-Device::TYPE Device::d_typD() const {
-return d->d_typD;
-
+Device::TYPE Device::tDevice()
+{
+return typeDevice;
 }
-
-
 
 }
 

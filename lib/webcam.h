@@ -12,7 +12,7 @@ namespace UdevNotifier{
 class UDEVNOTIFIERSHARED_EXPORT Webcam: public Device
 {
 public:
-    Webcam(udev_device *device = nullptr, TYPE typeD = WEBCAM);
+    Webcam(udev_device *device = nullptr);
     ~Webcam();
 };
 

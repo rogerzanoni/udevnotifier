@@ -2,10 +2,9 @@
 #define UDEVNOTIFIER_DEVICE_P_H
 
 #include <QtCore/QString>
-#include"device.h"
+
 
 #include <libudev.h>
-
 
 
 
@@ -22,6 +21,7 @@ public:
     DevicePrivate()
         : device(nullptr)
     {}
+
     ~DevicePrivate()
     {
         // destroy the relevant device
@@ -31,7 +31,7 @@ public:
     QString node;
     QString subsystem;
     QString type;
-    Device::TYPE d_typD;
+
 
     udev_device *device;
 };

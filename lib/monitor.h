@@ -12,7 +12,7 @@ namespace UdevNotifier {
 class UDEVNOTIFIERSHARED_EXPORT Monitor: public Device
 {
 public:
-    Monitor(udev_device *device = nullptr, TYPE typen = MONITOR);
+    Monitor(udev_device *device = nullptr);
     ~Monitor();
 };
 
