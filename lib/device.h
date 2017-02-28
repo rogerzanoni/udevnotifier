@@ -29,7 +29,6 @@ public:
         USBDEVICE
     };
 
-
     Device(udev_device *device = nullptr, TYPE n  = USBDEVICE);
     Device(const Device &other);
     ~Device();
