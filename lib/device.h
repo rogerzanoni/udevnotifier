@@ -33,7 +33,7 @@ public:
     Device(const Device &other);
     ~Device();
 
-    TYPE   Typedevice();
+    TYPE   typeDevice();
     QString node() const;
     QString subsystem() const;
     QString type() const;

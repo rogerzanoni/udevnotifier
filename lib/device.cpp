@@ -1,10 +1,7 @@
 #include "device.h"
 #include "device_p.h"
-
 #include <libudev.h>
-
 #include <QtCore/QDebug>
-
 
 namespace UdevNotifier {
 
@@ -22,7 +19,7 @@ Device::Device(udev_device* device)
 
 
       //  qDebug() << QString("%1 - %2 - %3").arg(d->node).arg(d->subsystem).arg(d->type);
-        qDebug()<< Typedevice();
+        qDebug()<< typeDevice();
         qDebug() << "node " << d->node;
         qDebug() << "subsystem:" << d->subsystem;
         qDebug() << "type: " << d->type;
@@ -69,7 +66,7 @@ QString Device::type() const
     return d->type;
 }
 
-Device::TYPE Device::Typedevice(){
+Device::TYPE Device::typeDevice(){
 
  if(d->type=="drm_minor") {
     return MONITOR;
@@ -82,14 +79,3 @@ Device::TYPE Device::Typedevice(){
 }
 
 }
-
-
-
-
-
-
-
-
-
-
-
