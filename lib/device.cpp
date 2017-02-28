@@ -6,11 +6,11 @@
 namespace UdevNotifier {
 
 
-Device::Device(udev_device* device, TYPE typeD)
+Device::Device(udev_device* device, TYPEDEVICE typeD)
     : d(new DevicePrivate)
 {
     d->device = device;
-    this->typeDevice=typeD;
+    typeDevice=typeD;
 
     // populate basic info
     if (d->device) {
@@ -20,7 +20,7 @@ Device::Device(udev_device* device, TYPE typeD)
 
 
       //  qDebug() << QString("%1 - %2 - %3").arg(d->node).arg(d->subsystem).arg(d->type);
-        qDebug() << "TIPO :" << tDevice();
+        qDebug() << "TIPO :" << deviceType();
         qDebug() << "node " << d->node;
         qDebug() << "subsystem:" << d->subsystem;
         qDebug() << "type: " << d->type;
@@ -66,9 +66,9 @@ QString Device::type() const
     return d->type;
 }
 
-Device::TYPE Device::tDevice()
+Device::TYPEDEVICE Device::deviceType() const
 {
-return typeDevice;
+    return typeDevice;
 }
 
 }
