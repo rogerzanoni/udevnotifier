@@ -28,7 +28,7 @@ public:
         WEBCAM,
         USBDEVICE
     };
-    TYPE typeD;
+
 
     Device(udev_device *device = nullptr, TYPE n  = USBDEVICE);
     Device(const Device &other);
@@ -41,6 +41,7 @@ public:
 
 private:
     DevicePrivate * const d;
+    TYPE typeD;
 };
 
 }
