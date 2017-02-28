@@ -26,14 +26,15 @@ public:
 
         MONITOR,
         WEBCAM,
-        DEVICEUSB
+        USBDEVICE
     };
+    TYPE typeD;
 
-    Device(udev_device *device = nullptr);
+    Device(udev_device *device = nullptr, TYPE n  = USBDEVICE);
     Device(const Device &other);
     ~Device();
+    Device::TYPE typeDevice();
 
-    TYPE   typeDevice();
     QString node() const;
     QString subsystem() const;
     QString type() const;

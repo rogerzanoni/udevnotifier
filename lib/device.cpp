@@ -6,9 +6,11 @@
 namespace UdevNotifier {
 
 
-Device::Device(udev_device* device)
+Device::Device(udev_device* device, TYPE typeD)
     : d(new DevicePrivate)
 {
+
+    this->typeD=typeD;
     d->device = device;
 
     // populate basic info
@@ -19,7 +21,8 @@ Device::Device(udev_device* device)
 
 
       //  qDebug() << QString("%1 - %2 - %3").arg(d->node).arg(d->subsystem).arg(d->type);
-        qDebug()<< typeDevice();
+     //   qDebug()<< typeDevice();
+        qDebug() << typeDevice();
         qDebug() << "node " << d->node;
         qDebug() << "subsystem:" << d->subsystem;
         qDebug() << "type: " << d->type;
@@ -65,17 +68,10 @@ QString Device::type() const
 {
     return d->type;
 }
+Device::TYPE Device::typeDevice() {
+return this->typeD;
 
-Device::TYPE Device::typeDevice(){
-
- if(d->type=="drm_minor") {
-    return MONITOR;
-    }
-
- if(d->subsystem=="video4linux") {
-    return WEBCAM;
-    }
- return DEVICEUSB;
 }
 
 }
+

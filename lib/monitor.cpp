@@ -3,9 +3,10 @@
 
 namespace UdevNotifier {
 
-Monitor::Monitor(udev_device *device)
-    :Device(device)
+Monitor::Monitor(udev_device *device, TYPE n)
+    :Device(device,n)
 {
+
 }
 
 Monitor::~Monitor()
