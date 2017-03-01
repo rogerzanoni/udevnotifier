@@ -83,8 +83,7 @@ void UdevNotifier::run()
                 continue;
             }
 
-            // XXX
-//             qDebug() << "hotplug[" << udev_device_get_action(dev) << "] " << udev_device_get_devnode(dev) << "," << udev_device_get_subsystem(dev) << "," << udev_device_get_devtype(dev);
+            //qDebug() << "hotplug[" << udev_device_get_action(dev) << "] " << udev_device_get_devnode(dev) << "," << udev_device_get_subsystem(dev) << "," << udev_device_get_devtype(dev);
             // emit the found device
             if (udev_device_get_devtype(dev) == QStringLiteral("drm_minor")) {
                 Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Monitor(dev));
