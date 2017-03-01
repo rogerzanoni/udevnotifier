@@ -28,15 +28,15 @@ public:
         USBDEVICE
     };
 
-    Device(udev_device *device = nullptr, DeviceType deviceType  = USBDEVICE);
+    Device(udev_device *device = nullptr, DeviceType deviceType = USBDEVICE);
     Device(const Device &other);
     ~Device();
 
     QString node() const;
     QString subsystem() const;
     QString type() const;
-    DeviceType deviceType() const;
-    DeviceType typeDevice;
+    DeviceType deviceTypeReturn() const;
+    DeviceType devicetype;
 
 
 private:

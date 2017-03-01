@@ -7,8 +7,8 @@
 #include <libudev.h>
 
 
-
 namespace UdevNotifier {
+
 
 /**
  * @class DevicePrivate

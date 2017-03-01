@@ -6,11 +6,11 @@
 namespace UdevNotifier {
 
 
-Device::Device(udev_device* device, DeviceType deviceT )
+Device::Device(udev_device* device, DeviceType deviceType )
     : d(new DevicePrivate)
 {
     d->device = device;
-    typeDevice = deviceT;
+    devicetype = deviceType;
 
     // populate basic info
     if (d->device) {
@@ -18,22 +18,17 @@ Device::Device(udev_device* device, DeviceType deviceT )
         d->subsystem = udev_device_get_subsystem(d->device);
         d->type = udev_device_get_devtype(d->device);
 
-
       //  qDebug() << QString("%1 - %2 - %3").arg(d->node).arg(d->subsystem).arg(d->type);
-        qDebug() << "TIPO :" << deviceType();
+        qDebug() << "TYPE :" << deviceTypeReturn();
         qDebug() << "node " << d->node;
         qDebug() << "subsystem:" << d->subsystem;
         qDebug() << "type: " << d->type;
-
         qDebug() << "DEVPATH: " << udev_device_get_devpath(d->device);
         qDebug() << "SYSPATH: " << udev_device_get_syspath(d->device);
         qDebug() << "SYSNAME: " << udev_device_get_sysname(d->device);
         qDebug() << "IS INIT: " << udev_device_get_is_initialized(d->device);
         qDebug() << "PRODUCT: " << udev_device_get_sysattr_value(d->device, "product");
-
-
         qDebug()<<"**************************************************************";
-
     }
 }
 
@@ -66,9 +61,9 @@ QString Device::type() const
     return d->type;
 }
 
-Device::DeviceType Device::deviceType() const
+Device::DeviceType Device::deviceTypeReturn() const
 {
-    return typeDevice;
+    return devicetype;
 }
 
 }
