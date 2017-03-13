@@ -1,16 +1,14 @@
 #include "device.h"
 #include "device_p.h"
-
 #include <libudev.h>
-
 #include <QtCore/QDebug>
-
 
 namespace UdevNotifier {
 
 
-Device::Device(udev_device* device)
+Device::Device(udev_device* device, DataType deviceType )
     : d(new DevicePrivate)
+    , m_deviceType(deviceType)
 {
     d->device = device;
 
@@ -20,19 +18,16 @@ Device::Device(udev_device* device)
         d->subsystem = udev_device_get_subsystem(d->device);
         d->type = udev_device_get_devtype(d->device);
 
-
-      //  qDebug() << QString("%1 - %2 - %3").arg(d->node).arg(d->subsystem).arg(d->type);
+        // qDebug() << QString("%1 - %2 - %3").arg(d->node).arg(d->subsystem).arg(d->type);
+        qDebug() << "TYPE :" << Device::deviceType(); // Test funtion
         qDebug() << "node " << d->node;
         qDebug() << "subsystem:" << d->subsystem;
         qDebug() << "type: " << d->type;
-
         qDebug() << "DEVPATH: " << udev_device_get_devpath(d->device);
         qDebug() << "SYSPATH: " << udev_device_get_syspath(d->device);
         qDebug() << "SYSNAME: " << udev_device_get_sysname(d->device);
         qDebug() << "IS INIT: " << udev_device_get_is_initialized(d->device);
         qDebug() << "PRODUCT: " << udev_device_get_sysattr_value(d->device, "product");
-
-
         qDebug()<<"**************************************************************";
     }
 }
@@ -44,8 +39,8 @@ Device::Device(const UdevNotifier::Device &other)
     d->node = other.node();
     d->subsystem = other.subsystem();
     d->type = other.type();
+    m_deviceType = other.deviceType();
 }
-
 
 Device::~Device()
 {
@@ -67,7 +62,10 @@ QString Device::type() const
     return d->type;
 }
 
-
+Device::DataType Device::deviceType() const
+{
+    return m_deviceType;
+}
 
 }
 

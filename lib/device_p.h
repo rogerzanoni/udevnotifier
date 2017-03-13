@@ -3,11 +3,12 @@
 
 #include <QtCore/QString>
 
+
 #include <libudev.h>
 
 
-
 namespace UdevNotifier {
+
 
 /**
  * @class DevicePrivate
@@ -20,6 +21,7 @@ public:
     DevicePrivate()
         : device(nullptr)
     {}
+
     ~DevicePrivate()
     {
         // destroy the relevant device
@@ -29,6 +31,7 @@ public:
     QString node;
     QString subsystem;
     QString type;
+
 
     udev_device *device;
 };
