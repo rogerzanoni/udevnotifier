@@ -6,7 +6,7 @@
 namespace UdevNotifier {
 
 
-Device::Device(udev_device* device, DataType deviceType )
+Device::Device(udev_device* device, DeviceType deviceType )
     : d(new DevicePrivate)
     , m_deviceType(deviceType)
 {
@@ -62,7 +62,7 @@ QString Device::type() const
     return d->type;
 }
 
-Device::DataType Device::deviceType() const
+Device::DeviceType Device::deviceType() const
 {
     return m_deviceType;
 }
