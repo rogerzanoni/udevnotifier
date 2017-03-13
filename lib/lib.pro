@@ -34,6 +34,12 @@ HEADERS += \
 
 LIBS += -ludev
 
+OTHER_FILES += \
+    ../include/UdevNotifier/Device \
+    ../include/UdevNotifier/Monitor \
+    ../include/UdevNotifier/UdevNotifier \
+    ../include/UdevNotifier/Webcam
+
 unix {
     target.path = /usr/lib
     INSTALLS += target

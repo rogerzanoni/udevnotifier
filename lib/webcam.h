@@ -1,13 +1,17 @@
 #ifndef WEBCAM_H
 #define WEBCAM_H
 
-#include <libudev.h>
-#include <QtCore/QString>
+
 #include "device.h"
+
+#include <libudev.h>
+
+#include <QtCore/QString>
+
 
 class udev_device;
 
-namespace UdevNotifier{
+namespace UdevNotifier {
 
 class UDEVNOTIFIERSHARED_EXPORT Webcam: public Device
 {
