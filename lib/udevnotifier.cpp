@@ -49,11 +49,12 @@ UdevNotifier::Action UdevNotifier::actionFromString(const QString &actionStr)
     qDebug() << actionStr;
 
 
-    if (actionStr == "add") {
+    if (actionStr == QLatin1String("add")) {
         return ADD;
-    } else if (actionStr == "remove") {
+    } else if (actionStr == QLatin1String("remove")) {
         return REMOVE;
     } else {
+        // not handled at the moment
         return NONE;
     }
 }
@@ -85,11 +86,11 @@ void UdevNotifier::run()
 
             //qDebug() << "hotplug[" << udev_device_get_action(dev) << "] " << udev_device_get_devnode(dev) << "," << udev_device_get_subsystem(dev) << "," << udev_device_get_devtype(dev);
             // emit the found device
-            if (udev_device_get_devtype(dev) == QStringLiteral("drm_minor")) {
+            if (udev_device_get_devtype(dev) == QLatin1String("drm_minor")) {
                 Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Monitor(dev));
             }
 
-            if (udev_device_get_subsystem(dev) == QStringLiteral("video4linux")) {
+            if (udev_device_get_subsystem(dev) == QLatin1String("video4linux")) {
                 Q_EMIT udevEvent(actionFromString(udev_device_get_action(dev)), new Webcam(dev));
             }
             // XXX

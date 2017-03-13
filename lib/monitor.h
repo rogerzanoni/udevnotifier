@@ -4,8 +4,6 @@
 #include "device.h"
 #include "udevnotifier_global.h"
 
-#include <libudev.h>
-
 
 namespace UdevNotifier {
 
