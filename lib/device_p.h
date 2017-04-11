@@ -31,6 +31,7 @@ public:
     QString node;
     QString subsystem;
     QString type;
+    QString name;
 
 
     udev_device *device;

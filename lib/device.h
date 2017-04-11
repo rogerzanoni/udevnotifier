@@ -35,6 +35,7 @@ public:
     QString node() const;
     QString subsystem() const;
     QString type() const;
+    QString name() const;
     DeviceType deviceType() const;
 
 private:
