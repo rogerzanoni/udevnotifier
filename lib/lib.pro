@@ -22,7 +22,6 @@ SOURCES += \
     monitor.cpp  \
     webcam.cpp
 
-
 HEADERS += \
     device.h \
     device_p.h \
@@ -41,6 +40,7 @@ OTHER_FILES += \
     ../include/UdevNotifier/Webcam
 
 unix {
-    target.path = /usr/lib
+    isEmpty(PREFIX): PREFIX = /usr
+    target.path = $${PREFIX}/lib
     INSTALLS += target
 }
