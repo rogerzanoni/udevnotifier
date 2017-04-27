@@ -22,7 +22,9 @@ HEADERS += \
     core.h
 
 
-INCLUDEPATH += ../include
+INCLUDEPATH += ../include\
+               ../lib
+
 DEPENDPATH += ../include
 LIBS += -L$$OUT_PWD/../lib -ludevnotifier
 LIBS += -ludev
