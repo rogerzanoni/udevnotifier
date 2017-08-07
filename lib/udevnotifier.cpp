@@ -125,8 +125,6 @@ void UdevNotifier::run()
     qDebug("[UdevNotifier::run]");
     d->exit = false;
 
-    scan();
-
     while (!d->exit) {
        // create the poll item
         pollfd items[1];
