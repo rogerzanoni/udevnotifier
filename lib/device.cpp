@@ -17,7 +17,11 @@ Device::Device(udev_device* device, DeviceType deviceType )
         d->node = udev_device_get_devnode(d->device);
         d->subsystem = udev_device_get_subsystem(d->device);
         d->type = udev_device_get_devtype(d->device);
-        d->name = udev_device_get_sysattr_value(d->device, "name");
+        if (m_deviceType == MONITOR) {
+            d->name = udev_device_get_sysname(d->device);
+        } else {
+            d->name = udev_device_get_sysattr_value(d->device, "name");
+        }
 
         // qDebug() << QString("%1 - %2 - %3").arg(d->node).arg(d->subsystem).arg(d->type);
         qDebug() << "TYPE :" << Device::deviceType(); // Test funtion
@@ -29,7 +33,7 @@ Device::Device(udev_device* device, DeviceType deviceType )
         qDebug() << "SYSNAME: " << udev_device_get_sysname(d->device);
         qDebug() << "IS INIT: " << udev_device_get_is_initialized(d->device);
         qDebug() << "PRODUCT: " << udev_device_get_sysattr_value(d->device, "product");
-        qDebug() << "NAME: " << udev_device_get_sysattr_value(d->device, "name");
+        qDebug() << "NAME: " << d->name;
         qDebug()<<"**************************************************************";
     }
 }

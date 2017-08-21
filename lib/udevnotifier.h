@@ -34,6 +34,8 @@ public:
     UdevNotifier(const QStringList &groups, QObject *parent = nullptr);
     ~UdevNotifier();
 
+    void scan();
+
     /** stops the polling for devices */
     void stop();
 

@@ -59,12 +59,73 @@ UdevNotifier::Action UdevNotifier::actionFromString(const QString &actionStr)
     }
 }
 
+void UdevNotifier::scan()
+{
+    struct udev *udev = d->udev;
+    struct udev_enumerate *enumerate = udev_enumerate_new(udev);
+    udev_enumerate_add_match_subsystem(enumerate, "drm");
+    udev_enumerate_add_match_sysname(enumerate, "card[0-9]-*");
+    udev_enumerate_scan_devices(enumerate);
+
+    struct udev_list_entry *devices = udev_enumerate_get_list_entry(enumerate);
+    struct udev_list_entry *dev_list_entry;
+    struct udev_device *dev;
+
+    udev_list_entry_foreach(dev_list_entry, devices) {
+        const char *path;
+
+        path = udev_list_entry_get_name(dev_list_entry);
+        dev = udev_device_new_from_syspath(udev, path);
+
+        if (!dev) {
+            continue;
+        }
+
+        qDebug("[UdevNotifier::scan] Found display: %s", udev_device_get_sysname(dev));
+        qDebug("[UdevNotifier::scan] enabled? %s", udev_device_get_sysattr_value(dev, "enabled"));
+
+        if (QString(udev_device_get_sysattr_value(dev, "enabled")) == QLatin1String("enabled")) {
+            Q_EMIT udevEvent(ADD, new Monitor(dev));
+        }
+
+        udev_device_unref(dev);
+    }
+
+    udev_enumerate_unref(enumerate);
+
+    enumerate = udev_enumerate_new(udev);
+    udev_enumerate_add_match_subsystem(enumerate, "video4linux");
+    udev_enumerate_scan_devices(enumerate);
+
+    devices = udev_enumerate_get_list_entry(enumerate);
+
+    udev_list_entry_foreach(dev_list_entry, devices) {
+        const char *path;
+
+        path = udev_list_entry_get_name(dev_list_entry);
+        dev = udev_device_new_from_syspath(udev, path);
+
+        if (!dev) {
+            continue;
+        }
+
+        qDebug("[UdevNotifier::scan] Found webcam: %s", udev_device_get_sysattr_value(dev, "name"));
+        qDebug("[UdevNotifier::scan] node %s", udev_device_get_devnode(dev));
+
+        Q_EMIT udevEvent(ADD, new Webcam(dev));
+
+        udev_device_unref(dev);
+    }
+
+    udev_enumerate_unref(enumerate);
+}
+
 void UdevNotifier::run()
 {
     qDebug("[UdevNotifier::run]");
     d->exit = false;
 
-   while (!d->exit) {
+    while (!d->exit) {
        // create the poll item
         pollfd items[1];
         items[0].fd = udev_monitor_get_fd(d->udevMonitor);
