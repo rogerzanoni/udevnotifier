@@ -44,6 +44,8 @@ Q_SIGNALS:
 
 protected:
     void run() override final;
+    QString displayOutputName(const QString &udevName);
+    QString displayOutputName(int32_t crtc);
 
 private:
     Action actionFromString(const QString &actionStr);

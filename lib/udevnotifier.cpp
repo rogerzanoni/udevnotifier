@@ -2,12 +2,22 @@
 #include "udevnotifier.h"
 #include "udevnotifier_p.h"
 
+
 #include <libudev.h>
 #include <monitor.h>
 #include <poll.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <xf86drm.h>
+#include <xf86drmMode.h>
+
 #include"webcam.h"
 #include <QtCore/QDebug>
 
+#include <X11/Xlib.h>
+#include <X11/extensions/Xrandr.h>
 
 namespace UdevNotifier {
 
@@ -36,6 +46,25 @@ UdevNotifier::UdevNotifier(const QStringList &groups, QObject *parent)
     } else {
         qDebug("FAILED UDEv MONITOR");
     }
+
+    d->connectorTypes[DRM_MODE_CONNECTOR_Unknown]     = QString("unknown");
+    d->connectorTypes[DRM_MODE_CONNECTOR_VGA]         = QString("VGA");
+    d->connectorTypes[DRM_MODE_CONNECTOR_DVII]        = QString("DVI-I");
+    d->connectorTypes[DRM_MODE_CONNECTOR_DVID]        = QString("DVI-D");
+    d->connectorTypes[DRM_MODE_CONNECTOR_DVIA]        = QString("DVI-A");
+    d->connectorTypes[DRM_MODE_CONNECTOR_Composite]   = QString("composite");
+    d->connectorTypes[DRM_MODE_CONNECTOR_SVIDEO]      = QString("s-video");
+    d->connectorTypes[DRM_MODE_CONNECTOR_LVDS]        = QString("LVDS");
+    d->connectorTypes[DRM_MODE_CONNECTOR_Component]   = QString("component");
+    d->connectorTypes[DRM_MODE_CONNECTOR_9PinDIN]     = QString("9-pin DIN");
+    d->connectorTypes[DRM_MODE_CONNECTOR_DisplayPort] = QString("DP");
+    d->connectorTypes[DRM_MODE_CONNECTOR_HDMIA]       = QString("HDMI-A");
+    d->connectorTypes[DRM_MODE_CONNECTOR_HDMIB]       = QString("HDMI-B");
+    d->connectorTypes[DRM_MODE_CONNECTOR_TV]          = QString("TV");
+    d->connectorTypes[DRM_MODE_CONNECTOR_eDP]         = QString("eDP");
+    d->connectorTypes[DRM_MODE_CONNECTOR_VIRTUAL]     = QString("Virtual");
+    d->connectorTypes[DRM_MODE_CONNECTOR_DSI]         = QString("DSI");
+    d->connectorTypes[DRM_MODE_CONNECTOR_DPI]         = QString("DPI");
 }
 
 UdevNotifier::~UdevNotifier()
@@ -82,6 +111,7 @@ void UdevNotifier::scan()
         }
 
         qDebug("[UdevNotifier::scan] Found display: %s", udev_device_get_sysname(dev));
+        qDebug() << "[UdevNotifier::scan] xserver output name:" << displayOutputName(udev_device_get_sysname(dev));
         qDebug("[UdevNotifier::scan] enabled? %s", udev_device_get_sysattr_value(dev, "enabled"));
 
         if (QString(udev_device_get_sysattr_value(dev, "enabled")) == QLatin1String("enabled")) {
@@ -168,6 +198,97 @@ void UdevNotifier::run()
 void UdevNotifier::stop()
 {
     d->exit = true;
+}
+
+QString UdevNotifier::displayOutputName(const QString &udevName)
+{
+    QString card = udevName.left(udevName.indexOf("-"));
+    QString drmConnectorType = udevName.mid(udevName.indexOf("-") + 1, udevName.lastIndexOf("-") - udevName.indexOf("-") - 1);
+    QString cardNode = QString("/dev/dri/%1").arg(card);
+
+    qDebug() << "[UdevNotifier::deviceXOutputName] card:" << card;
+    qDebug() << "[UdevNotifier::deviceXOutputName] drm output name:" << drmConnectorType;
+    qDebug() << "[UdevNotifier::deviceXOutputName] card node:" << cardNode;
+
+    int fd = open(cardNode.toLatin1().data(), O_RDWR | O_CLOEXEC);
+
+    if (fd < 0) {
+        qDebug() << "[UdevNotifier::deviceXOutputName] cannot open";
+        return QString();
+    }
+
+
+    drmModeRes *res = drmModeGetResources(fd);
+    if (!res) {
+        qDebug() << "[UdevNotifier::deviceXOutputName] cannot retrieve drm resrouces - error: " << errno;
+        goto cleanupclose;
+    }
+
+    // find the connector
+    for (int i = 0; i < res->count_connectors; ++i) {
+        drmModeConnector *connector = drmModeGetConnector(fd, res->connectors[i]);
+        if (!connector) {
+            qDebug() << "[UdevNotifier::deviceXOutputName] cannot retrieve DRM connector" << res->connectors[i] << "error:" << errno;
+            continue;
+        }
+
+        QString connectorType = d->connectorTypes[connector->connector_type];
+        qDebug() << "[UdevNotifier::deviceXOutputName] connector found:" << connector->connector_id <<  "type:" << connectorType;
+
+        if (connectorType == drmConnectorType) {
+            // connector found, now find the crct
+            if (connector->encoder_id) {
+                qDebug() << "[UdevNotifier::deviceXOutputName] using encoder bound to the connector";
+                drmModeEncoder *encoder = drmModeGetEncoder(fd, connector->encoder_id);
+
+                if (encoder->crtc_id) {
+                    int32_t crtc = encoder->crtc_id;
+                    qDebug() << "[UdevNotifier::deviceXOutputName] found crtc:" << crtc << "name:" << displayOutputName(crtc);
+                }
+
+                drmModeFreeEncoder(encoder);
+            } else {
+                qDebug() << "[UdevNotifier::deviceXOutputName] no encoder bound to the connector";
+                // XXX iterate over all global crtcs
+            }
+        }
+
+        drmModeFreeConnector(connector);
+    }
+
+    drmModeFreeResources(res);
+
+cleanupclose:
+    close(fd);
+
+    return QString();
+}
+
+QString UdevNotifier::displayOutputName(int32_t crtc)
+{
+    Display* display = XOpenDisplay(NULL);
+    Window window = RootWindow(display, DefaultScreen(display));
+    XRRScreenResources* screenRes = XRRGetScreenResources(display, window);
+    QString outputName;
+
+    for (int i = 0; i < screenRes->noutput; ++i) {
+        XRROutputInfo *outputInfo = XRRGetOutputInfo(display, screenRes, screenRes->outputs[i]);
+        qDebug() << "[UdevNotifier::displayOutputName] found output: " << outputInfo->name;
+
+        for (int j = 0; j < outputInfo->ncrtc; ++j) {
+            if (outputInfo->crtcs[j] == crtc) {
+                qDebug() << "[UdevNotifier::displayOutputName] found crtc. Output name: " << outputInfo->name;
+                outputName = outputInfo->name;
+                break;
+            }
+        }
+
+        XRRFreeOutputInfo(outputInfo);
+    }
+
+    XCloseDisplay(display);
+
+    return outputName;
 }
 
 }

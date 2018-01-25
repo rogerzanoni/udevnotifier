@@ -5,7 +5,7 @@
 
 
 #include <libudev.h>
-
+#include <QHash>
 
 namespace UdevNotifier {
 
@@ -41,6 +41,8 @@ public:
 
     struct udev *udev;
     struct udev_monitor *udevMonitor;
+
+    QHash<unsigned int, QString> connectorTypes;
 };
 
 }
